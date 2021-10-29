@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.chen.vo.params.PageParams;;
+import com.chen.vo.params.PageParams;
 //通过json数据进行交互
 @RestController
 //设置映射路径（通俗理解就是路由）
@@ -30,5 +30,23 @@ public class ArticleController {
 //        System.out.println(articles);
 //        我们这里要传入数据给Result,数据要从service层里获取
         return articleService.listArticlesPage(pageParams);
+    }
+//    最热文章路由
+    @PostMapping("hot")
+    public Result hotArticle(){
+        int limit=5;
+        return articleService.hotArticle(limit);
+    }
+//    最新文章
+
+    @PostMapping("new")
+    public Result newArticle(){
+        int limit=5;
+        return articleService.newArticles(limit);
+    }
+//    文章归档
+    @PostMapping("listArchives")
+    public Result listArchives(){
+        return articleService.listArchives();
     }
 }

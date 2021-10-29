@@ -2,6 +2,7 @@ package com.chen.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.chen.dao.dos.Archives;
 import com.chen.dao.mapper.ArticleMapper;
 import com.chen.dao.pojo.Article;
 import com.chen.dao.pojo.SysUser;
@@ -77,4 +78,46 @@ public class ArticleServiceImpl implements ArticleService {
 
         return articleVo;
     }
+//    最热文章查询语句实现,返回他的id和标题
+    @Override
+    public  Result hotArticle(int limit){
+//        初始化mapper映射,查询Article数据表的信息
+        LambdaQueryWrapper<Article> queryWrapper=new LambdaQueryWrapper<>();
+//        设置排序，ViewCounts浏览量倒序排
+        queryWrapper.orderByDesc(Article::getViewCounts);
+//        只查询id和title
+        queryWrapper.select(Article::getId,Article::getTitle);
+//        最后在加上前limit几个,注意这里的空格
+        queryWrapper.last("limit "+limit);
+//        执行查询语句，相当于select id,title from article order by view_counts desc limit #{limit}
+        List<Article> articles =articleMapper.selectList(queryWrapper);
+        return Result.success(copyList(articles,false,false));
+    }
+
+    //    最新文章查询语句实现,返回他的id和标题,通过比较创建时间
+    @Override
+    public  Result newArticles(int limit){
+//        初始化mapper映射,查询Article数据表的信息
+        LambdaQueryWrapper<Article> queryWrapper=new LambdaQueryWrapper<>();
+//        设置排序，CreateDate创建时间倒序排
+        queryWrapper.orderByDesc(Article::getCreateDate);
+//        只查询id和title
+        queryWrapper.select(Article::getId,Article::getTitle);
+//        最后在加上前limit几个,注意这里的空格
+        queryWrapper.last("limit "+limit);
+//        执行查询语句，相当于select id,title from article order by create_data desc limit #{limit}
+        List<Article> articles =articleMapper.selectList(queryWrapper);
+        return Result.success(copyList(articles,false,false));
+    }
+    //    文章归档
+    @Override
+    public Result listArchives() {
+//        获取mapper映射查询到的数据
+        List<Archives> archivesList= articleMapper.listArchives();
+        return Result.success(archivesList);
+    }
+
+
+
+
 }
