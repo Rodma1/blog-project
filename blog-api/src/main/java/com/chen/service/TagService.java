@@ -7,4 +7,7 @@ import java.util.List;
 public interface TagService {
 //    通过文章id找到对应的标签信息
     List<TagVo> findTagsByArticleId(Long articleId);
+
+//    获取前limit最热标签
+    List<TagVo> hot(int limit);
 }

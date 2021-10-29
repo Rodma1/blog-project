@@ -15,6 +15,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public SysUser findUserById(Long userid) {
         SysUser sysUser=sysUserMapper.selectById(userid);
+//        如果没有用户名就默认
         if(sysUser==null){
             sysUser=new SysUser();
             sysUser.setNickname("运智");
