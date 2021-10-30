@@ -50,7 +50,16 @@ public class LoginServiceImpl implements LoginService {
         return Result.success(token);
 //        token放入redis当中，redis token:user信息 设置过期时间（登录认证的时候 先认证token字符串是否合法，去redis认证是否存在）
     }
-    public static void main(String[] args) {
-        System.out.println(DigestUtils.md5Hex("admin"+slat));
+    //    public static void main(String[] args) {
+//        System.out.println(DigestUtils.md5Hex("admin"+slat));
+//    }
+
+//    退出登录
+    @Override
+    public Result logout(String token) {
+//        删除缓存中的token
+        redisTemplate.delete("TOKEN_"+token);
+        return Result.success(null);
     }
+
 }
