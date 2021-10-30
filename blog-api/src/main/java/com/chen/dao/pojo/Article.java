@@ -12,13 +12,10 @@ import java.util.List;
 @Data
 public class Article {
 
-    public static final int Article_TOP = 1;
-
-    public static final int Article_Common = 0;
 
     private Long id;
 //    评论数量
-    private int commentCounts;
+    private Integer commentCounts;
 //    创建时间
     private Long createDate;
 //    简介
@@ -26,9 +23,9 @@ public class Article {
 //    标题
     private String title;
 //    流量数据
-    private int viewCounts;
+    private Integer viewCounts;
 //    是否置顶
-    private int weight = Article_Common;
+    private Integer weight ;
     /**
      * 作者id
      */

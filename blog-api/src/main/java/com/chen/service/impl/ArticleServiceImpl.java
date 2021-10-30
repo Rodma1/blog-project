@@ -12,6 +12,7 @@ import com.chen.vo.ArticleVo;
 import com.chen.vo.CategoryVo;
 import com.chen.vo.Result;
 import com.chen.vo.params.PageParams;
+import com.sun.jmx.snmp.tasks.ThreadService;
 import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,9 @@ public class ArticleServiceImpl implements ArticleService {
 //    文章内容
     @Autowired
     private ArticleBodyService articleBodyService;
+//    线程池
+    @Autowired
+    private TreadService threadService;
     @Override
     public Result listArticlesPage(PageParams pageParams) {
         /*
@@ -147,8 +151,16 @@ public class ArticleServiceImpl implements ArticleService {
     //   点击进入文章内容查看详情
     @Override
     public ArticleVo findArticleById(Long id) {
+        /**
+         * 1. 根据id查询文章信息
+         * 2. 根据bodyId和categoryid去做关联查询
+         * -- 查询文章内容详情
+         * SELECT id,comment_counts,create_date,summary,
+         * title,view_counts,weight,author_id,body_id,category_id FROM blog_article WHERE id=#{id}
+         */
         Article article = articleMapper.selectById(id);
-
+        //把更新操作扔到线程池中
+        threadService.updateViewCount(articleMapper,article);
         return copy(article,true,true,true,true);
     }
 
