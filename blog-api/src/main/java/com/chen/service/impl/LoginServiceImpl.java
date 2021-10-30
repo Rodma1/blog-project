@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.lang.model.element.NestingKind;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 //实现登录接口
@@ -28,6 +29,7 @@ public class LoginServiceImpl implements LoginService {
 //    springboot和redis整合
     @Autowired
     private RedisTemplate<String,String> redisTemplate;
+
     @Override
     public Result login(LoginParam loginParam) {
 //        获取用户
@@ -116,7 +118,26 @@ public class LoginServiceImpl implements LoginService {
 //        返回tonken到请求头
         return Result.success(token);
     }
+    //    验证token
+    @Override
+    public SysUser checkToken(String token){
+        if (StringUtils.isBlank(token)){
+            return null;
+        }
+//        如果验证失败
+        Map<String,Object> stringObjectMap=JWTUtils.checkToken(token);
+        if (stringObjectMap==null){
+            return null;
+        }
+//        获取token
+        String userJson=redisTemplate.opsForValue().get("TOKEN_"+token);
+        if (StringUtils.isBlank(userJson)){
+            return  null;
+        }
+        SysUser sysUser=JSON.parseObject(userJson,SysUser.class);
+        return sysUser;
 
+    }
 
 
 }
