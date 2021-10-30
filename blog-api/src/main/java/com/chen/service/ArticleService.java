@@ -15,4 +15,7 @@ public interface ArticleService {
    Result newArticles(int limit);
 //   文章归档
    Result listArchives();
+
+//   点击进入文章内容查看详情
+   ArticleVo findArticleById(Long id);
 }

@@ -1,5 +1,13 @@
 package com.chen.dao.pojo;
+import com.chen.vo.ArticleBodyVo;
+import com.chen.vo.CategoryVo;
+import com.chen.vo.TagVo;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
+
+import java.util.List;
+
 //创建文章实体类
 @Data
 public class Article {
@@ -7,6 +15,7 @@ public class Article {
     public static final int Article_TOP = 1;
 
     public static final int Article_Common = 0;
+
     private Long id;
 //    评论数量
     private int commentCounts;
@@ -32,4 +41,6 @@ public class Article {
      *类别id
      */
     private Long categoryId;
+
+
 }
