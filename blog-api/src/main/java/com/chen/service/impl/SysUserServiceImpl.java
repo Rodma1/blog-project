@@ -81,5 +81,28 @@ public class SysUserServiceImpl implements SysUserService {
 
     }
 
+    /*
+    查找用户是否存在
+     */
+    @Override
+    public SysUser findUserByAccount(String account) {
+//        初始化映射mapper语句
+        LambdaQueryWrapper<SysUser> queryWrapper=new LambdaQueryWrapper<>();
+//        获取数据库用户数据和account作比较:account=#{account}
+        queryWrapper.eq(SysUser:: getAccount,account);
+//        找到一条符合的就行
+        queryWrapper.last("limit 1");
+//     相当于sql:select * from blog_sys_user where account=#{account}
+        return sysUserMapper.selectOne(queryWrapper);
+    }
+    /*
+    直接将注册的用户信息插入就可以了
+     */
+    @Override
+    public void save(SysUser sysUser) {
+        //注意 默认生成的id 是分布式id 采用了雪花算法
+        this.sysUserMapper.insert(sysUser);
+    }
+
 
 }

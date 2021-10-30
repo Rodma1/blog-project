@@ -7,6 +7,8 @@ public class SysUser {
     private Long id;
 //    创建时间
     private Long create_date;
+//    最后登录的时间
+    private Long last_login;
 //    账号
     private String account;
 //    头像

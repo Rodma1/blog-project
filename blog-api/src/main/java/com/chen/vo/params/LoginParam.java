@@ -4,6 +4,10 @@ import lombok.Data;
 
 @Data
 public class LoginParam {
+//    账号
     private String account;
+//    密码
     private String password;
+//    昵称
+    private String nickname;
 }
