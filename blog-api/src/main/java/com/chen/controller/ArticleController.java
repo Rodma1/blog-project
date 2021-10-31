@@ -3,6 +3,7 @@ package com.chen.controller;
 import com.chen.service.ArticleService;
 import com.chen.vo.ArticleVo;
 import com.chen.vo.Result;
+import com.chen.vo.params.ArticleParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.*;
@@ -55,5 +56,14 @@ public class ArticleController {
     public Result findArticleById(@PathVariable("id") Long id){
         ArticleVo articleVo= articleService.findArticleById(id);
         return Result.success(articleVo);
+    }
+    /**
+     * 提交文章接口
+     */
+    @PostMapping("publish")
+    public Result publish(@RequestBody ArticleParam articleParam){
+//        articleParam数据存入到数据库后在返回
+        return articleService.publish(articleParam);
+
     }
 }

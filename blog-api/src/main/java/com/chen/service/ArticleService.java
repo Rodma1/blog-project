@@ -3,6 +3,7 @@ package com.chen.service;
 import java.util.List;
 import com.chen.vo.ArticleVo;
 import com.chen.vo.Result;
+import com.chen.vo.params.ArticleParam;
 import com.chen.vo.params.PageParams;
 
 //设置获取文章列表数据接口
@@ -18,4 +19,6 @@ public interface ArticleService {
 
 //   点击进入文章内容查看详情
    ArticleVo findArticleById(Long id);
+// 获取文章内容
+    Result publish(ArticleParam articleParam);
 }
