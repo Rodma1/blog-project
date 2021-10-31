@@ -1,5 +1,6 @@
 package com.chen.controller;
 
+import com.chen.common.aop.LogAnnotation;
 import com.chen.service.ArticleService;
 import com.chen.vo.ArticleVo;
 import com.chen.vo.Result;
@@ -22,7 +23,10 @@ public class ArticleController {
      */
     @Autowired
     private ArticleService articleService;
+
     @PostMapping//post请求
+//    加上注解，代表要对此接口记录日志，module是模块名称，operation是操作名称
+    @LogAnnotation(module = "文章",operation = "获取文章列表")
     public Result listArticle(@RequestBody PageParams pageParams){
 ////        ArticleVo页面接收数据
 //        Result articles=articleService.listArticlesPage(pageParams);
