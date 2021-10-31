@@ -26,4 +26,11 @@ public class TagsControlles {
 //        返回json数据
         return Result.success(tagVoList);
     }
+    /**
+     * 获取标签表的所有标签
+     */
+    @GetMapping
+    public Result findAll(){
+        return tagService.findAll();
+    }
 }

@@ -1,8 +1,10 @@
 package com.chen.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.chen.dao.mapper.TagMapper;
 import com.chen.dao.pojo.Tag;
 import com.chen.service.TagService;
+import com.chen.vo.Result;
 import com.chen.vo.TagVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +53,16 @@ public class TagsServiceImpl implements TagService {
 //        找到最热标签的名字
         List<Tag> tagList=tagMapper.findTagsByTagIds(hotsTagIds);
         return copyList(tagList);
+    }
+
+    /**
+     * 获取所有标签
+     * @return
+     */
+    @Override
+    public Result findAll() {
+//        select * from blog_tag;
+        List<Tag> tags=this.tagMapper.selectList(new LambdaQueryWrapper<>());
+        return Result.success(copyList(tags));
     }
 }
