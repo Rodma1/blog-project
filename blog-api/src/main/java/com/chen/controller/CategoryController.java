@@ -14,11 +14,19 @@ public class CategoryController {
     private CategoryService categoryService;
 
     /**
-     * get请求就可以了
+     * get请求就可以了，获取CategoryVo要拿的分类
      */
     @GetMapping
     public Result listCategory(){
         return categoryService.findAll();
     }
+    /**
+     * get请求，获取所有分类
+     */
+    @GetMapping("detail")
+    public Result categoriesDetail(){
+        return categoryService.findAllDetail();
+    }
+
 
 }

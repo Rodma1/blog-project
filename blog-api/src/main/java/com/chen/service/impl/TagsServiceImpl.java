@@ -56,7 +56,7 @@ public class TagsServiceImpl implements TagService {
     }
 
     /**
-     * 获取所有标签
+     *文章内容 获取所有标签
      * @return
      */
     @Override
@@ -65,4 +65,15 @@ public class TagsServiceImpl implements TagService {
         List<Tag> tags=this.tagMapper.selectList(new LambdaQueryWrapper<>());
         return Result.success(copyList(tags));
     }
+    /**
+     * 导航：获取所有标签
+     * @return
+     */
+    @Override
+    public Result findAllDetail() {
+        LambdaQueryWrapper<Tag> queryWrapper = new LambdaQueryWrapper<>();
+        List<Tag> tags = this.tagMapper.selectList(queryWrapper);
+        return Result.success(copyList(tags));
+    }
+
 }

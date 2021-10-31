@@ -14,4 +14,6 @@ public interface TagService {
 
 //    获取所有标签
     Result findAll();
+
+    Result findAllDetail();
 }

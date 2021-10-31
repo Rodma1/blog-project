@@ -8,4 +8,6 @@ public interface CategoryService {
     CategoryVo findCategoryById(Long id);
 //    获取所有分类
     Result findAll();
+//    查询所有的文章分类
+    Result findAllDetail();
 }

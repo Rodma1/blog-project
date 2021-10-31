@@ -52,4 +52,16 @@ public class CategoryServiceImpl  implements CategoryService {
         }
         return categoryVoList;
     }
+
+    /**
+     * 查询所有的文章分类
+     * 接口url：/categorys/detail
+     * @return
+     */
+    @Override
+    public Result findAllDetail() {
+        List<Category> categories = categoryMapper.selectList(new LambdaQueryWrapper<>());
+        //页面交互的对象
+        return Result.success(copyList(categories));
+    }
 }

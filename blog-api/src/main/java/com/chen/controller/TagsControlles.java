@@ -27,10 +27,17 @@ public class TagsControlles {
         return Result.success(tagVoList);
     }
     /**
-     * 获取标签表的所有标签
+     * 文章内容：获取标签表的所有标签
      */
     @GetMapping
     public Result findAll(){
         return tagService.findAll();
+    }
+    /**
+     * 导航：获取标签表的所有标签
+     */
+    @GetMapping("detail")
+    public Result findAllDetail(){
+        return tagService.findAllDetail();
     }
 }
