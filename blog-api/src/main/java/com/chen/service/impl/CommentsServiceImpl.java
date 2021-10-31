@@ -3,11 +3,14 @@ package com.chen.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.chen.dao.mapper.CommentMapper;
 import com.chen.dao.pojo.Comment;
+import com.chen.dao.pojo.SysUser;
 import com.chen.service.CommentsService;
 import com.chen.service.SysUserService;
+import com.chen.utils.UserThreadLocal;
 import com.chen.vo.CommentVo;
 import com.chen.vo.Result;
 import com.chen.vo.UserVo;
+import com.chen.vo.params.CommentParam;
 import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +39,6 @@ public class CommentsServiceImpl implements CommentsService {
         List<Comment> comments=commentMapper.selectList(queryWrapper);
         return Result.success(copyList(comments));
     }
-
     /**
      * 遍历追加
      * @param commentList
@@ -92,5 +94,43 @@ public class CommentsServiceImpl implements CommentsService {
 //        查询父评论的id和水平是否为2
         List<Comment> comments = this.commentMapper.selectList(queryWrapper);
         return copyList(comments);
+    }
+    /**
+     * 评论功能的实现
+     */
+    @Override
+    public Result comment(CommentParam commentParam) {
+        //之前我们已经写好了，用户登录完我们会把用户信息存入到UserThreadLocal里面
+        SysUser sysUser= UserThreadLocal.get();
+//        创建新的评论对象,获取属性
+        Comment comment=new Comment();
+//        文章id
+        comment.setArticleId(commentParam.getArticleId());
+//        作者id
+        comment.setAuthorId(sysUser.getId());
+//        评论内容
+        comment.setContent(commentParam.getContent());
+//        评论时间
+        comment.setCreateDate(System.currentTimeMillis());
+        /**
+         * 判断是否是父评论，获取level等级
+         */
+        Long parent=commentParam.getParent();
+//        如果parent没有返回id，也就是默认为0，说明他是父评论
+        if (parent==null||parent==0){
+            comment.setLevel(1);
+        }else{
+//            否则就是子评论
+            comment.setLevel(2);
+        }
+//        给这个新的评论添加parent参数
+        comment.setParentId(parent == null ? 0 : parent);
+//        在获取评论的用户id
+        Long toUserId = commentParam.getToUserId();
+        comment.setToUid(toUserId == null ? 0 : toUserId);
+//        执行插入语句
+        this.commentMapper.insert(comment);
+        //写评论是直接写入数据库，不需要返回数据,所以这里为null
+        return Result.success(null);
     }
 }
