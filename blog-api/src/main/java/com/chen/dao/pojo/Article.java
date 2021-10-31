@@ -13,6 +13,9 @@ import java.util.List;
 public class Article {
 
 
+    public static final int Article_TOP = 1;
+
+    public static final int Article_Common = 0;
     private Long id;
 //    评论数量
     private Integer commentCounts;
