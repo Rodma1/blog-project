@@ -9,4 +9,8 @@ public class PageParams {
     private int page=1;
 //    页数大小
     private int pageSize=10;
+//    分类id
+    private Long categoryId;
+//  标签id
+    private Long tagId;
 }

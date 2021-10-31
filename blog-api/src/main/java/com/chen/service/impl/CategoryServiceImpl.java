@@ -64,4 +64,19 @@ public class CategoryServiceImpl  implements CategoryService {
         //页面交互的对象
         return Result.success(copyList(categories));
     }
+
+    /**
+     * 通过类别id对文章列表进行分类
+     * @param id
+     * @return
+     */
+    @Override
+    public Result categoriesDetailById(Long id) {
+//        查询对应的类别id
+        Category category=categoryMapper.selectById(id);
+//        对应CategoryVo里面的值返回
+        CategoryVo categoryVo=copy(category);
+        return Result.success(categoryVo);
+
+    }
 }

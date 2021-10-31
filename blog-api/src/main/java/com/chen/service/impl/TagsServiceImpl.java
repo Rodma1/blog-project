@@ -76,4 +76,17 @@ public class TagsServiceImpl implements TagService {
         return Result.success(copyList(tags));
     }
 
+    /**
+     * 通过标签id寻找文章
+     * @param id
+     * @return
+     */
+    @Override
+    public Result findDetailById(Long id) {
+        Tag tag=tagMapper.selectById(id);
+        //这个copy的作用是为了解耦
+        TagVo copy=copy(tag);
+        return Result.success(copy);
+    }
+
 }

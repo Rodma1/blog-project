@@ -48,16 +48,43 @@ public class ArticleServiceImpl implements ArticleService {
 //    文章内容表映射
     @Autowired(required = false)
     private ArticleBodyMapper articleBodyMapper;
+
     @Override
     public Result listArticlesPage(PageParams pageParams) {
         /*
         分页查询数据库
         baomidou已经自带了分页接口
          */
+
 //        创建页数对象
         Page<Article> page=new Page<>(pageParams.getPage(),pageParams.getPageSize());
 //        查询条件
         LambdaQueryWrapper<Article> queryWrapper=new LambdaQueryWrapper<>();
+        //查询文章的参数 加上分类id，判断不为空 加上分类条件
+        if (pageParams.getCategoryId() != null) {
+            queryWrapper.eq(Article::getCategoryId,pageParams.getCategoryId());
+        }
+        List<Long> articleIdList = new ArrayList<>();
+        if (pageParams.getTagId() != null){
+            /**
+             * 加入标签条件查询
+             * 问题：article表中并没有tag字段，一篇文章 有多个标签
+             * article_tag表中article  1:n tag_id是一对多的关系
+             */
+            LambdaQueryWrapper<ArticleTag> articleTagLambdaQueryWrapper = new LambdaQueryWrapper<>();
+            articleTagLambdaQueryWrapper.eq(ArticleTag::getTagId,pageParams.getTagId());
+//            查询文章标签表中为tagid的文章，由于文章id和标签id是在文章标签表中式一对多的关系，所以一个文章有多个标签
+            List<ArticleTag> articleTags = articleTagMapper.selectList(articleTagLambdaQueryWrapper);
+            for (ArticleTag articleTag : articleTags) {
+//                获取文章id
+                articleIdList.add(articleTag.getArticleId());
+            }
+            if (articleIdList.size() > 0){
+                //and id in(1,2,3)
+                queryWrapper.in(Article::getId,articleIdList);
+            }
+        }
+
 //        是否进行排序
         queryWrapper.orderByDesc(Article::getWeight,Article::getCreateDate);
         Page<Article> articlePage=articleMapper.selectPage(page,queryWrapper);

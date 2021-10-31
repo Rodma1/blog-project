@@ -10,4 +10,6 @@ public interface CategoryService {
     Result findAll();
 //    查询所有的文章分类
     Result findAllDetail();
+
+    Result categoriesDetailById(Long id);
 }
