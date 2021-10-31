@@ -2,6 +2,7 @@ package com.chen.service;
 
 import com.chen.dao.pojo.SysUser;
 import com.chen.vo.Result;
+import com.chen.vo.UserVo;
 
 
 public interface SysUserService {
@@ -17,5 +18,8 @@ public interface SysUserService {
     SysUser findUserByAccount(String account);
 //    保存注册的用户信息
     void save(SysUser sysUser);
+
+//    获取基本的昵称和头像给评论显示
+    UserVo findUserVoById(Long id);
 
 }

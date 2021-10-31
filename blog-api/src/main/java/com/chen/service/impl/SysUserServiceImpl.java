@@ -8,6 +8,7 @@ import com.chen.utils.JWTUtils;
 import com.chen.vo.ErrorCode;
 import com.chen.vo.LoginUserVo;
 import com.chen.vo.Result;
+import com.chen.vo.UserVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -102,6 +103,29 @@ public class SysUserServiceImpl implements SysUserService {
     public void save(SysUser sysUser) {
         //注意 默认生成的id 是分布式id 采用了雪花算法
         this.sysUserMapper.insert(sysUser);
+    }
+
+    /**
+     * 获取返回给前端评论的用户信息
+     * @param id 文章id
+     * @return
+     */
+    @Override
+    public UserVo findUserVoById(Long id) {
+//        查询文章id对应的信息:select * from blog_article where id=#{id};
+        SysUser sysUser=sysUserMapper.selectById(id);
+        if (sysUser == null){
+            sysUser = new SysUser();
+            sysUser.setId(1L);
+            sysUser.setAvatar("/static/img/logo.b3a48c0.png");
+            sysUser.setNickname("码神之路");
+        }
+//        获取查询到消息这这三个数据返回
+        UserVo userVo = new UserVo();
+        userVo.setAvatar(sysUser.getAvatar());
+        userVo.setNickname(sysUser.getNickname());
+        userVo.setId(sysUser.getId());
+        return userVo;
     }
 
 
