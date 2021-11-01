@@ -13,4 +13,17 @@ public class PageParams {
     private Long categoryId;
 //  标签id
     private Long tagId;
+    /**
+     * 获取年月
+     */
+    private String year;
+    private String month;
+//    指定以get方法
+    public String getMonth(){
+        if (this.month != null && this.month.length() == 1){
+            //为什么这里加零，因为会有01,02
+            return "0"+this.month;
+        }
+        return this.month;
+    }
 }

@@ -1,6 +1,7 @@
 package com.chen.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chen.dao.dos.Archives;
 import com.chen.dao.mapper.ArticleBodyMapper;
@@ -49,51 +50,70 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired(required = false)
     private ArticleBodyMapper articleBodyMapper;
 
+    /*使用mybatis-plus写得文章列表查询*/
+//    @Override
+//    public Result listArticlesPage(PageParams pageParams) {
+//        /*
+//        分页查询数据库
+//        baomidou已经自带了分页接口
+//         */
+//
+////        创建页数对象
+//        Page<Article> page=new Page<>(pageParams.getPage(),pageParams.getPageSize());
+////        查询条件
+//        LambdaQueryWrapper<Article> queryWrapper=new LambdaQueryWrapper<>();
+//        //查询文章的参数 加上分类id，判断不为空 加上分类条件
+//        if (pageParams.getCategoryId() != null) {
+//            queryWrapper.eq(Article::getCategoryId,pageParams.getCategoryId());
+//        }
+//        List<Long> articleIdList = new ArrayList<>();
+//        if (pageParams.getTagId() != null){
+//            /**
+//             * 加入标签条件查询
+//             * 问题：article表中并没有tag字段，一篇文章 有多个标签
+//             * article_tag表中article  1:n tag_id是一对多的关系
+//             */
+//            LambdaQueryWrapper<ArticleTag> articleTagLambdaQueryWrapper = new LambdaQueryWrapper<>();
+//            articleTagLambdaQueryWrapper.eq(ArticleTag::getTagId,pageParams.getTagId());
+////            查询文章标签表中为tagid的文章，由于文章id和标签id是在文章标签表中式一对多的关系，所以一个文章有多个标签
+//            List<ArticleTag> articleTags = articleTagMapper.selectList(articleTagLambdaQueryWrapper);
+//            for (ArticleTag articleTag : articleTags) {
+////                获取文章id
+//                articleIdList.add(articleTag.getArticleId());
+//            }
+//            if (articleIdList.size() > 0){
+//                //and id in(1,2,3)
+//                queryWrapper.in(Article::getId,articleIdList);
+//            }
+//        }
+//
+////        是否进行排序
+//        queryWrapper.orderByDesc(Article::getWeight,Article::getCreateDate);
+//        Page<Article> articlePage=articleMapper.selectPage(page,queryWrapper);
+//        List<Article> records=articlePage.getRecords();
+////        默认返回tag标签true
+//        List<ArticleVo> articleVoList=copyList(records,true,true);
+//        return Result.success(articleVoList);
+//    }
+    //        循环遍历到列表中，这里的copyList使用到了重载
+    /*使用mybatis映射文件写得文章列表查询
+     */
     @Override
     public Result listArticlesPage(PageParams pageParams) {
-        /*
-        分页查询数据库
-        baomidou已经自带了分页接口
-         */
-
 //        创建页数对象
-        Page<Article> page=new Page<>(pageParams.getPage(),pageParams.getPageSize());
-//        查询条件
-        LambdaQueryWrapper<Article> queryWrapper=new LambdaQueryWrapper<>();
-        //查询文章的参数 加上分类id，判断不为空 加上分类条件
-        if (pageParams.getCategoryId() != null) {
-            queryWrapper.eq(Article::getCategoryId,pageParams.getCategoryId());
-        }
-        List<Long> articleIdList = new ArrayList<>();
-        if (pageParams.getTagId() != null){
-            /**
-             * 加入标签条件查询
-             * 问题：article表中并没有tag字段，一篇文章 有多个标签
-             * article_tag表中article  1:n tag_id是一对多的关系
-             */
-            LambdaQueryWrapper<ArticleTag> articleTagLambdaQueryWrapper = new LambdaQueryWrapper<>();
-            articleTagLambdaQueryWrapper.eq(ArticleTag::getTagId,pageParams.getTagId());
-//            查询文章标签表中为tagid的文章，由于文章id和标签id是在文章标签表中式一对多的关系，所以一个文章有多个标签
-            List<ArticleTag> articleTags = articleTagMapper.selectList(articleTagLambdaQueryWrapper);
-            for (ArticleTag articleTag : articleTags) {
-//                获取文章id
-                articleIdList.add(articleTag.getArticleId());
-            }
-            if (articleIdList.size() > 0){
-                //and id in(1,2,3)
-                queryWrapper.in(Article::getId,articleIdList);
-            }
-        }
-
-//        是否进行排序
-        queryWrapper.orderByDesc(Article::getWeight,Article::getCreateDate);
-        Page<Article> articlePage=articleMapper.selectPage(page,queryWrapper);
-        List<Article> records=articlePage.getRecords();
-//        默认返回tag标签true
-        List<ArticleVo> articleVoList=copyList(records,true,true);
-        return Result.success(articleVoList);
+        Page<Article> page = new Page<>(pageParams.getPage(),pageParams.getPageSize());
+//        文章归档返回对应的年月分类和标签
+        IPage<Article> articleIPage = this.articleMapper.listArticle(
+                page,
+                pageParams.getCategoryId(),
+                pageParams.getTagId(),
+                pageParams.getYear(),
+                pageParams.getMonth());
+        List<Article> record=articleIPage.getRecords();
+        return Result.success(copyList(record,true,true));
     }
-    //        循环遍历到列表中，这里的copyList使用到了重载
+
+
     private  List<ArticleVo> copyList(List<Article> records,boolean isTags,boolean isAuthor){
         List<ArticleVo> articleVoList=new ArrayList<>();
 
