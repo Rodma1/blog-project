@@ -30,7 +30,6 @@
         <where>
             1=1
             <if test="categoryId != null">
-#
                 and category_id=#{categoryId}
             </if>
             <if test="year !=null and year.length>0 and month != null and month.length>0">
