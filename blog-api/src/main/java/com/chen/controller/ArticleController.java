@@ -1,6 +1,7 @@
 package com.chen.controller;
 
 import com.chen.common.aop.LogAnnotation;
+import com.chen.common.cache.Cache;
 import com.chen.service.ArticleService;
 import com.chen.vo.ArticleVo;
 import com.chen.vo.Result;
@@ -27,6 +28,7 @@ public class ArticleController {
     @PostMapping//post请求
 //    加上注解，代表要对此接口记录日志，module是模块名称，operation是操作名称
     @LogAnnotation(module = "文章",operation = "获取文章列表")
+    @Cache(expire = 5 * 60 * 1000,name = "listArticle")
     public Result listArticle(@RequestBody PageParams pageParams){
 ////        ArticleVo页面接收数据
 //        Result articles=articleService.listArticlesPage(pageParams);
@@ -36,6 +38,8 @@ public class ArticleController {
     }
 //    最热文章路由
     @PostMapping("hot")
+//    加入注解，只存在五分钟
+    @Cache(expire = 5 * 60 * 1000,name = "hot_article")
     public Result hotArticle(){
         int limit=5;
         return articleService.hotArticle(limit);
@@ -57,6 +61,7 @@ public class ArticleController {
      * 文章内容
      */
     @PostMapping("view/{id}")
+    @Cache(expire = 5 * 60 * 1000,name = "findArticleById")
     public Result findArticleById(@PathVariable("id") Long id){
         ArticleVo articleVo= articleService.findArticleById(id);
         return Result.success(articleVo);
@@ -68,6 +73,5 @@ public class ArticleController {
     public Result publish(@RequestBody ArticleParam articleParam){
 //        articleParam数据存入到数据库后在返回
         return articleService.publish(articleParam);
-
     }
 }
