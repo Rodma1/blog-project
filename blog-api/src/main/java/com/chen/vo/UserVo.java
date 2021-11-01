@@ -9,8 +9,8 @@ import lombok.Data;
  */
 @Data
 public class UserVo {
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
+//    @JsonSerialize(using = ToStringSerializer.class)
+    private String id;
 //    用户昵称
     private String nickname;
 //    用户头像

@@ -8,8 +8,8 @@ import lombok.Data;
 @Data
 public class LoginUserVo {
 //    用户id
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
+//    @JsonSerialize(using = ToStringSerializer.class)
+    private String id;
 //    用户名
     private String account;
 //    昵称

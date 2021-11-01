@@ -140,6 +140,8 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleVo copy(Article article,boolean isTags,boolean isAuthor, boolean isBody, boolean isCategory){
 //        new对象
         ArticleVo articleVo=new ArticleVo();
+//        转为String类型
+        articleVo.setId(String.valueOf(article.getId()));
         BeanUtils.copyProperties(article,articleVo);
         articleVo.setCreateDate(new DateTime(article.getCreateDate()).toString("yyyy-MM-dd HH:mm"));
         //并不是所有的接口 都需要标签 ，作者信息
@@ -239,7 +241,7 @@ public class ArticleServiceImpl implements ArticleService {
 //        将所需数据表所需字段都存入到数据表中
         Article article = new Article();
         article.setAuthorId(sysUser.getId());
-        Long id=articleParam.getCategory().getId();
+        Long id=Long.parseLong(articleParam.getCategory().getId());
         article.setCategoryId(id);
         article.setCreateDate(System.currentTimeMillis());
         article.setCommentCounts(0);
@@ -261,7 +263,7 @@ public class ArticleServiceImpl implements ArticleService {
             for (TagVo tag : tags) {
                 ArticleTag articleTag = new ArticleTag();
                 articleTag.setArticleId(article.getId());
-                articleTag.setTagId(tag.getId());
+                articleTag.setTagId(Long.parseLong(tag.getId()));
 //                将获取的数据插入到文章标签表
                 this.articleTagMapper.insert(articleTag);
             }
@@ -288,7 +290,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         ArticleVo articleVo = new ArticleVo();
 //        这里直接调用ArticleVo对象，你也可以单独设置一个只返回id的对象
-        articleVo.setId(article.getId());
+        articleVo.setId(String.valueOf(article.getId()));
         return Result.success(articleVo);
     }
 

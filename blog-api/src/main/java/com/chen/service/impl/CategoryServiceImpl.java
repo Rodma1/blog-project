@@ -25,6 +25,8 @@ public class CategoryServiceImpl  implements CategoryService {
         CategoryVo categoryVo = new CategoryVo();
 //        获取categoryVo需要的属性
         BeanUtils.copyProperties(category,categoryVo);
+//        转为String类型
+        categoryVo.setId(String.valueOf(category.getId()));
 //        返回
         return categoryVo;
     }
@@ -42,6 +44,7 @@ public class CategoryServiceImpl  implements CategoryService {
     }
     public CategoryVo copy(Category category){
         CategoryVo categoryVo = new CategoryVo();
+        categoryVo.setId(String.valueOf(category.getId()));
         BeanUtils.copyProperties(category,categoryVo);
         return categoryVo;
     }

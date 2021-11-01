@@ -75,7 +75,7 @@ public class SysUserServiceImpl implements SysUserService {
 //        头像
         loginUserVo.setAvatar(sysUser.getAvatar());
 //        用户id
-        loginUserVo.setId(sysUser.getId());
+        loginUserVo.setId(String.valueOf(sysUser.getId()));
 //        昵称
         loginUserVo.setNickname(sysUser.getNickname());
         return Result.success(loginUserVo);
@@ -118,13 +118,13 @@ public class SysUserServiceImpl implements SysUserService {
             sysUser = new SysUser();
             sysUser.setId(1L);
             sysUser.setAvatar("/static/img/logo.b3a48c0.png");
-            sysUser.setNickname("码神之路");
+            sysUser.setNickname("神的孩子都在歌唱");
         }
 //        获取查询到消息这这三个数据返回
         UserVo userVo = new UserVo();
         userVo.setAvatar(sysUser.getAvatar());
         userVo.setNickname(sysUser.getNickname());
-        userVo.setId(sysUser.getId());
+        userVo.setId(String.valueOf(sysUser.getId()));
         return userVo;
     }
 

@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class TagVo {
-    private Long id;
+    private String id;
 //    标签名
     private String tagName;
     private String avatar;

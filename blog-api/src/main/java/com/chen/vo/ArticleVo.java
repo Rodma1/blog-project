@@ -9,8 +9,8 @@ import java.util.List;
 @Data
 public class ArticleVo {
 //    设置返回给前端需要的参数
-    @JsonSerialize(using = ToStringSerializer.class)//使用fastjson的ToStringSerializer注解，让系统序列化时，保留相关精度
-    private Long id;
+//    @JsonSerialize(using = ToStringSerializer.class)//使用fastjson的ToStringSerializer注解，让系统序列化时，保留相关精度
+    private String id;
     private String title;
     private String summary;//简介
 //    评论数量

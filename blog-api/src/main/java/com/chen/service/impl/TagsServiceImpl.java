@@ -21,6 +21,8 @@ public class TagsServiceImpl implements TagService {
     private TagMapper tagMapper;
     public TagVo copy(Tag tag){
         TagVo tagVo = new TagVo();
+//        转为String类型
+        tagVo.setId(String.valueOf(tag.getId()));
 //        tag拷贝到tagVo
         BeanUtils.copyProperties(tag,tagVo);
         return tagVo;

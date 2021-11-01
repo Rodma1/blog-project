@@ -59,6 +59,8 @@ public class CommentsServiceImpl implements CommentsService {
     public CommentVo copy(Comment comment){
 //        创建一个对象，这个用于返回给前端的数据
         CommentVo commentVo=new CommentVo();
+//        转化为String类型
+        commentVo.setId(String.valueOf(comment.getId()));
 //        把comment中与commentVo有相同属性的字段copy进去
         BeanUtils.copyProperties(comment,commentVo);
 //        时间格式化
