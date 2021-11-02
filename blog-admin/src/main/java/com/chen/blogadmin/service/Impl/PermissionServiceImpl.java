@@ -35,4 +35,30 @@ public class PermissionServiceImpl implements PermissionService {
         pageResult.setTotal(permissionPage.getTotal());
         return Result.success(pageResult);
     }
+
+    /**
+     * 添加数据
+     * @param permission
+     * @return
+     */
+    @Override
+    public Result add(Permission permission) {
+        this.permissionMapper.insert(permission);
+        String s=permission.getId()+"号ID "+permission.getName()+"添加成功";
+        return Result.success(s);
+    }
+
+    @Override
+    public Result update(Permission permission) {
+        this.permissionMapper.updateById(permission);
+        String s=permission.getId()+"号ID "+permission.getName()+"更新成功";
+        return Result.success(s);
+    }
+
+    @Override
+    public Result delete(Long id) {
+        this.permissionMapper.deleteById(id);
+        String s=id+"号删除成功";
+        return Result.success(s);
+    }
 }

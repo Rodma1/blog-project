@@ -1,6 +1,7 @@
 package com.chen.blogadmin.controller;
 
 
+import com.chen.blogadmin.dao.pojo.Permission;
 import com.chen.blogadmin.service.PermissionService;
 import com.chen.blogadmin.vo.Result;
 import com.chen.blogadmin.vo.param.PageParam;
@@ -24,5 +25,36 @@ public class AdminController {
     public Result listPermission(@RequestBody PageParam pageParam){
         return permissionService.listPermission(pageParam);
 
+    }
+
+    /**
+     * 添加
+     * @param permission
+     * @return
+     */
+    @PostMapping("permission/add")
+    public Result add(@RequestBody Permission permission){
+
+        return permissionService.add(permission);
+    }
+
+    /**
+     * 更新
+     * @param permission
+     * @return
+     */
+    @PostMapping("permission/update")
+    public Result update(@RequestBody Permission permission){
+        return permissionService.update(permission);
+    }
+
+    /**
+     * 删除
+     * @param id
+     * @return
+     */
+    @GetMapping("permission/delete/{id}")
+    public Result delete(@PathVariable("id") Long id){
+        return permissionService.delete(id);
     }
 }
