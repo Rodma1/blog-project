@@ -1,4 +1,7 @@
-package com.chen.config;
+package com.chen.blogadmin.config;
+/**
+ * mybatis-plus配置
+ */
 //配置类
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;

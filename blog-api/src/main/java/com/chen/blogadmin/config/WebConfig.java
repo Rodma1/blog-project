@@ -1,4 +1,4 @@
-package com.chen.config;
+package com.chen.blogadmin.config;
 //配置类
 
 import com.chen.handler.LoginInterceptor;

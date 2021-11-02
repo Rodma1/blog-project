@@ -1,4 +1,4 @@
-package com.chen.config;
+package com.chen.blogadmin.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
